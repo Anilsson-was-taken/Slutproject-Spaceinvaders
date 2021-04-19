@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "text är overated 2", "text är overated 2\text är overated 2.csproj", "{80B31993-82A6-40E8-9D8D-F24D5F83E0C5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80B31993-82A6-40E8-9D8D-F24D5F83E0C5}.Debug|x86.ActiveCfg = Debug|x86
+		{80B31993-82A6-40E8-9D8D-F24D5F83E0C5}.Debug|x86.Build.0 = Debug|x86
+		{80B31993-82A6-40E8-9D8D-F24D5F83E0C5}.Release|x86.ActiveCfg = Release|x86
+		{80B31993-82A6-40E8-9D8D-F24D5F83E0C5}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FC740386-F768-4C01-93E4-9D157F7EBBA9}
+	EndGlobalSection
+EndGlobal
