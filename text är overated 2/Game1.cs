@@ -5,6 +5,8 @@ using System.Net.Configuration;
 using System.Threading;
 using Microsoft.Xna.Framework.Input;
 using System;
+using Microsoft.Xna.Framework.Media;
+using System.Threading.Tasks;
 
 namespace Spaceinvder_Project
 {
@@ -16,9 +18,8 @@ namespace Spaceinvder_Project
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+
         private Color _backgroundColour = Color.Black;
-
-
 
         Rectangle PlayerRect1 = new Rectangle(350, 650, 95, 100);
         Rectangle PlayerRect2 = new Rectangle(350, 650, 95, 100);
@@ -30,8 +31,9 @@ namespace Spaceinvder_Project
         Rectangle GameBackgroundRect1 = new Rectangle(0, 0, 1366, 786);
         Rectangle GameBackgroundRect2 = new Rectangle(0, -786, 1366, 786);
         Rectangle BackgroundMenuRect = new Rectangle(0, 0, 1366, 768);
-        Rectangle CursorRect = new Rectangle(400, 200, 75, 75);
+        Rectangle CursorRect = new Rectangle(400, 215, 50, 50);
 
+        private Song ljud;
 
         private Texture2D BeamT;
         private Texture2D PlayerTexture1;
@@ -49,8 +51,8 @@ namespace Spaceinvder_Project
 
         int TextureChange = 0;
         int BackgroundIndex = 0;
-
-
+        int menytime = 0;
+        int menyvalue = 0;
 
 
 
@@ -104,7 +106,9 @@ namespace Spaceinvder_Project
             BacgroundMenuTexture = Content.Load<Texture2D>("Backgrounds/backgroundmenu");
             CursorTexture = Content.Load<Texture2D>("Textures/pek pil");
             font = Content.Load<SpriteFont>("Font");
-
+            ljud = Content.Load<Song>("Sound/levan");
+            MediaPlayer.Play(ljud);
+            MediaPlayer.IsRepeating = true;
 
         }
 
@@ -138,6 +142,11 @@ namespace Spaceinvder_Project
             {
                 TextureChange = 0;
             }
+            menytime++;
+            if (menytime >= 30)
+            {
+                menytime = 0;
+            }
 
 
             base.Update(gameTime);
@@ -154,6 +163,7 @@ namespace Spaceinvder_Project
             spriteBatch.Begin();
 
             KeyboardState kstate = Keyboard.GetState();
+
 
             if (BackgroundIndex == 0)
             {
@@ -180,7 +190,76 @@ namespace Spaceinvder_Project
                     GameBackgroundRect2.Y = -779;
                 }
 
-                spriteBatch.DrawString(font, "Start", new Vector2(100, 100), Color.White);
+                if (CursorRect.Y == 210)
+                {
+                    menyvalue = 0;
+                }
+                else if (CursorRect.Y == 360)
+                {
+                    menyvalue = 1;
+                }
+                else if (CursorRect.Y == 510)
+                {
+                    menyvalue = 2;
+                }
+
+                if (kstate.IsKeyDown(Keys.S) && menyvalue == 2 && menytime < 20)
+                {
+                    CursorRect.X = 400;
+                    CursorRect.Y = 210;
+                    menytime = 20;
+                }
+                else if (kstate.IsKeyDown(Keys.S) && menyvalue == 0 && menytime < 20)
+                {
+                    menyvalue = 1;
+                    CursorRect.X = 400;
+                    CursorRect.Y = 360;
+                    menytime = 20;
+                    
+                }
+                else if (kstate.IsKeyDown(Keys.S) && menyvalue == 1 && menytime < 20)
+                {
+                    menyvalue = 2;
+                    CursorRect.X = 400;
+                    CursorRect.Y = 510;
+                    menytime = 20;
+                }
+                else if (kstate.IsKeyDown(Keys.W) && menyvalue == 2 && menytime < 20)
+                {
+                    CursorRect.X = 400;
+                    CursorRect.Y = 360;
+                    menytime = 20;
+                }
+                else if (kstate.IsKeyDown(Keys.W) && menyvalue == 0 && menytime < 20)
+                {
+                    menyvalue = 1;
+                    CursorRect.X = 400;
+                    CursorRect.Y = 510;
+                    menytime = 20;
+
+                }
+                else if (kstate.IsKeyDown(Keys.W) && menyvalue == 1 && menytime < 20)
+                {
+                    menyvalue = 2;
+                    CursorRect.X = 400;
+                    CursorRect.Y = 210;
+                    menytime = 20;
+                }
+
+                if (kstate.IsKeyDown(Keys.Enter) && menyvalue == 0) 
+                {
+                    BackgroundIndex = 1;
+                }
+                else if (kstate.IsKeyDown(Keys.Enter) && menyvalue == 2)
+                {
+                    Exit();
+                }
+                //else if ((kstate.IsKeyDown(Keys.Enter) && menyvalue == 1)
+               
+
+                spriteBatch.DrawString(font, "Start Game", new Vector2(500, 200), Color.White);
+                spriteBatch.DrawString(font, "Controls", new Vector2(540, 350), Color.White);
+                spriteBatch.DrawString(font, "Exit", new Vector2(600, 500), Color.White);
             }
             else if (BackgroundIndex == 1)
             {

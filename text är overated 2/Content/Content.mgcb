@@ -68,6 +68,12 @@
 /processorParam:TextureFormat=Compressed
 /build:Font.spritefont
 
+#begin Sound/levan.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sound/levan.mp3
+
 #begin Textures/laser beam.png
 /importer:TextureImporter
 /processor:TextureProcessor
