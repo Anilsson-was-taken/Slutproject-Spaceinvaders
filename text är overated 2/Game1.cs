@@ -6,7 +6,10 @@ using System.Threading;
 using Microsoft.Xna.Framework.Input;
 using System;
 using Microsoft.Xna.Framework.Media;
+using text_är_overated_2.Class;
+using text_är_overated_2;
 using System.Threading.Tasks;
+
 
 namespace Spaceinvder_Project
 {
@@ -15,19 +18,15 @@ namespace Spaceinvder_Project
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
+        readonly GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-
-        private Color _backgroundColour = Color.Black;
+        private List<Component> _gameComponents;
 
         Rectangle PlayerRect1 = new Rectangle(350, 650, 95, 100);
         Rectangle PlayerRect2 = new Rectangle(350, 650, 95, 100);
         Rectangle PlayerRect3 = new Rectangle(350, 650, 95, 100);
 
-        public List<Rectangle> PlayerList = new List<Rectangle>();
-
-        Rectangle beamtest = new Rectangle(400, 225, 40, 40);
         Rectangle GameBackgroundRect1 = new Rectangle(0, 0, 1366, 786);
         Rectangle GameBackgroundRect2 = new Rectangle(0, -786, 1366, 786);
         Rectangle BackgroundMenuRect = new Rectangle(0, 0, 1366, 768);
@@ -35,7 +34,6 @@ namespace Spaceinvder_Project
 
         private Song ljud;
 
-        private Texture2D BeamT;
         private Texture2D PlayerTexture1;
         private Texture2D PlayerTexture2;
         private Texture2D PlayerTexture3;
@@ -51,8 +49,9 @@ namespace Spaceinvder_Project
 
         int TextureChange = 0;
         int BackgroundIndex = 0;
-        int menytime = 0;
+        int menyTime = 0;
         int menyvalue = 0;
+        int level = 1;
 
 
 
@@ -65,10 +64,11 @@ namespace Spaceinvder_Project
             graphics.IsFullScreen = true;
             graphics.PreferredBackBufferWidth = 1366;
             graphics.PreferredBackBufferHeight = 786;
+        }
 
-            PlayerList.Add(PlayerRect1);
-            PlayerList.Add(PlayerRect2);
-            PlayerList.Add(PlayerRect3);
+        public Game1(GraphicsDeviceManager graphics)
+        {
+            this.graphics = graphics;
         }
 
         /// <summary>
@@ -98,7 +98,6 @@ namespace Spaceinvder_Project
 
             // TODO: use this.Content to load your game content here
             PlayerTexture1 = Content.Load<Texture2D>("Textures/player1");
-            BeamT = Content.Load<Texture2D>("Textures/laser beam");
             PlayerTexture2 = Content.Load<Texture2D>("Textures/player2");
             PlayerTexture3 = Content.Load<Texture2D>("Textures/player3");
             GameBackgroundTexture1 = Content.Load<Texture2D>("Backgrounds/Base background");
@@ -110,9 +109,24 @@ namespace Spaceinvder_Project
             MediaPlayer.Play(ljud);
             MediaPlayer.IsRepeating = true;
 
+            Projectile ProjectileLeft = new Projectile(Content.Load<Texture2D>("Textures/projectile"))
+            {
+                PPosition = new Vector2(350, 500),
+                ProjectileColor = Color.White
+            };
+            Projectile ProjectileRight = new Projectile(Content.Load<Texture2D>("Textures/projectile"))
+            {
+                PPosition = new Vector2(375, 500),
+                ProjectileColor = Color.White
+            };
+
+            _gameComponents = new List<Component>
+            {
+                ProjectileLeft,
+                ProjectileRight
+            };
+
         }
-
-
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -131,8 +145,8 @@ namespace Spaceinvder_Project
         protected override void Update(GameTime gameTime)
         {
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+
+            base.Update(gameTime);
 
             // TODO: Add your update logic here
 
@@ -142,15 +156,13 @@ namespace Spaceinvder_Project
             {
                 TextureChange = 0;
             }
-            menytime++;
-            if (menytime >= 30)
-            {
-                menytime = 0;
-            }
-
-
-            base.Update(gameTime);
         }
+
+
+
+
+            
+        
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -164,105 +176,150 @@ namespace Spaceinvder_Project
 
             KeyboardState kstate = Keyboard.GetState();
 
+            spriteBatch.Draw(GameBackgroundTexture1, GameBackgroundRect1, Color.White);
+            spriteBatch.Draw(GameBackgroundTexture2, GameBackgroundRect2, Color.White);
+
+            if (GameBackgroundRect1.Y <= 786)
+            {
+                GameBackgroundRect1.Y += 6;
+            }
+            else if (GameBackgroundRect1.Y >= 786)
+            {
+                GameBackgroundRect1.Y = -779;
+            }
+
+            if (GameBackgroundRect2.Y <= 786)
+            {
+                GameBackgroundRect2.Y += 6;
+            }
+            else if (GameBackgroundRect2.Y >= 786)
+            {
+                GameBackgroundRect2.Y = -779;
+            }
+
+            if (kstate.IsKeyDown(Keys.R))
+                Exit();
+
+            if (kstate.IsKeyUp(Keys.W) && kstate.IsKeyUp(Keys.S) && kstate.IsKeyUp(Keys.Enter))
+            {
+                menyTime = 0;
+            }
+            else if (menyTime >= 30)
+            {
+                menyTime = 0;
+            }
+            else
+            {
+                menyTime++;
+            }
+
+            if (CursorRect.Y == 210)
+            {
+                menyvalue = 0;
+            }
+            else if (CursorRect.Y == 360)
+            {
+                menyvalue = 1;
+            }
+            else if (CursorRect.Y == 510)
+            {
+                menyvalue = 2;
+            }
+
+            if (kstate.IsKeyDown(Keys.S) && menyvalue == 2 && menyTime < 20)
+            {
+                CursorRect.X = 400;
+                CursorRect.Y = 210;
+                menyTime = 20;
+            }
+            else if (kstate.IsKeyDown(Keys.S) && menyvalue == 0 && menyTime < 20)
+            {
+                CursorRect.X = 400;
+                CursorRect.Y = 360;
+                menyTime = 20;
+
+            }
+            else if (kstate.IsKeyDown(Keys.S) && menyvalue == 1 && menyTime < 20)
+            {
+                CursorRect.X = 400;
+                CursorRect.Y = 510;
+                menyTime = 20;
+            }
+            else if (kstate.IsKeyDown(Keys.W) && menyvalue == 2 && menyTime < 20)
+            {
+                CursorRect.X = 400;
+                CursorRect.Y = 360;
+                menyTime = 20;
+            }
+            else if (kstate.IsKeyDown(Keys.W) && menyvalue == 0 && menyTime < 20)
+            {
+                CursorRect.X = 400;
+                CursorRect.Y = 510;
+                menyTime = 20;
+
+            }
+            else if (kstate.IsKeyDown(Keys.W) && menyvalue == 1 && menyTime < 20)
+            {
+                CursorRect.X = 400;
+                CursorRect.Y = 210;
+                menyTime = 20;
+            }
 
             if (BackgroundIndex == 0)
             {
-                spriteBatch.Draw(GameBackgroundTexture1, GameBackgroundRect1, Color.White);
-                spriteBatch.Draw(GameBackgroundTexture2, GameBackgroundRect2, Color.White);
-                spriteBatch.Draw(BacgroundMenuTexture, BackgroundMenuRect, Color.White);
                 spriteBatch.Draw(CursorTexture, CursorRect, Color.White);
-
-                if (GameBackgroundRect1.Y <= 786)
-                {
-                    GameBackgroundRect1.Y += 3;
-                }
-                else if (GameBackgroundRect1.Y >= 786)
-                {
-                    GameBackgroundRect1.Y = -779;
-                }
-
-                if (GameBackgroundRect2.Y <= 786)
-                {
-                    GameBackgroundRect2.Y += 3;
-                }
-                else if (GameBackgroundRect2.Y >= 786)
-                {
-                    GameBackgroundRect2.Y = -779;
-                }
-
-                if (CursorRect.Y == 210)
-                {
-                    menyvalue = 0;
-                }
-                else if (CursorRect.Y == 360)
-                {
-                    menyvalue = 1;
-                }
-                else if (CursorRect.Y == 510)
-                {
-                    menyvalue = 2;
-                }
-
-                if (kstate.IsKeyDown(Keys.S) && menyvalue == 2 && menytime < 20)
-                {
-                    CursorRect.X = 400;
-                    CursorRect.Y = 210;
-                    menytime = 20;
-                }
-                else if (kstate.IsKeyDown(Keys.S) && menyvalue == 0 && menytime < 20)
-                {
-                    menyvalue = 1;
-                    CursorRect.X = 400;
-                    CursorRect.Y = 360;
-                    menytime = 20;
-                    
-                }
-                else if (kstate.IsKeyDown(Keys.S) && menyvalue == 1 && menytime < 20)
-                {
-                    menyvalue = 2;
-                    CursorRect.X = 400;
-                    CursorRect.Y = 510;
-                    menytime = 20;
-                }
-                else if (kstate.IsKeyDown(Keys.W) && menyvalue == 2 && menytime < 20)
-                {
-                    CursorRect.X = 400;
-                    CursorRect.Y = 360;
-                    menytime = 20;
-                }
-                else if (kstate.IsKeyDown(Keys.W) && menyvalue == 0 && menytime < 20)
-                {
-                    menyvalue = 1;
-                    CursorRect.X = 400;
-                    CursorRect.Y = 510;
-                    menytime = 20;
-
-                }
-                else if (kstate.IsKeyDown(Keys.W) && menyvalue == 1 && menytime < 20)
-                {
-                    menyvalue = 2;
-                    CursorRect.X = 400;
-                    CursorRect.Y = 210;
-                    menytime = 20;
-                }
-
-                if (kstate.IsKeyDown(Keys.Enter) && menyvalue == 0) 
+                spriteBatch.Draw(BacgroundMenuTexture, BackgroundMenuRect, Color.White);
+                if (kstate.IsKeyDown(Keys.Enter) && menyvalue == 0 && menyTime < 20)
                 {
                     BackgroundIndex = 1;
                 }
-                else if (kstate.IsKeyDown(Keys.Enter) && menyvalue == 2)
+                else if (kstate.IsKeyDown(Keys.Enter) && menyvalue == 2 && menyTime < 20)
                 {
                     Exit();
                 }
                 //else if ((kstate.IsKeyDown(Keys.Enter) && menyvalue == 1)
-               
+
 
                 spriteBatch.DrawString(font, "Start Game", new Vector2(500, 200), Color.White);
                 spriteBatch.DrawString(font, "Controls", new Vector2(540, 350), Color.White);
                 spriteBatch.DrawString(font, "Exit", new Vector2(600, 500), Color.White);
             }
+            else if (kstate.IsKeyDown(Keys.Escape) && BackgroundIndex == 1)
+            {
+                BackgroundIndex = 2;
+            }
+            else if (BackgroundIndex == 2)
+            {
+                spriteBatch.Draw(CursorTexture, CursorRect, Color.White);
+                spriteBatch.Draw(BacgroundMenuTexture, BackgroundMenuRect, Color.White);
+
+                if (kstate.IsKeyDown(Keys.Enter) && menyvalue == 0)
+                {
+                    BackgroundIndex = 1;
+                }
+                else if (kstate.IsKeyDown(Keys.Enter) && menyvalue == 2)
+                {
+                    menyTime = 20;
+                    BackgroundIndex = 0;
+                    CursorRect.Y = 210;
+                    menyvalue = 0;
+
+                }
+                //else if ((kstate.IsKeyDown(Keys.Enter) && menyvalue == 1)
+
+                
+
+                spriteBatch.DrawString(font, "Continue Game", new Vector2(460, 200), Color.White);
+                spriteBatch.DrawString(font, "Controls", new Vector2(540, 350), Color.White);
+                spriteBatch.DrawString(font, "Exit to menu", new Vector2(490, 500), Color.White);
+            }
             else if (BackgroundIndex == 1)
             {
+                foreach (var Component in _gameComponents)
+                {
+                    Component.Draw(gameTime, spriteBatch);
+                }
+
                 if (kstate.IsKeyDown(Keys.D))
                 {
                     PlayerRect1.X += 7;
@@ -289,29 +346,6 @@ namespace Spaceinvder_Project
                     PlayerRect3.X = -100;
                 }
 
-                spriteBatch.Draw(GameBackgroundTexture1, GameBackgroundRect1, Color.White);
-                spriteBatch.Draw(GameBackgroundTexture2, GameBackgroundRect2, Color.White);
-
-                if (GameBackgroundRect1.Y <= 786)
-                {
-                    GameBackgroundRect1.Y += 6;
-                }
-                else if (GameBackgroundRect1.Y >= 786)
-                {
-                    GameBackgroundRect1.Y = -779;
-                }
-
-                if (GameBackgroundRect2.Y <= 786)
-                {
-                    GameBackgroundRect2.Y += 6;
-                }
-                else if (GameBackgroundRect2.Y >= 786)
-                {
-                    GameBackgroundRect2.Y = -779;
-                }
-
-
-
                 if (TextureChange < 20)
                 {
                     spriteBatch.Draw(PlayerTexture1, PlayerRect1, Color.White);
@@ -328,9 +362,9 @@ namespace Spaceinvder_Project
                 {
                     spriteBatch.Draw(PlayerTexture2, PlayerRect2, Color.White);
                 }
-                //spriteBatch.Draw(BeamT, beamtest, null, Color.White, MathHelper.PiOver2, new Vector2(0, 0), SpriteEffects.None, 0);
 
             }
+            
 
             spriteBatch.End();
 
