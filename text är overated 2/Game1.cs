@@ -21,7 +21,7 @@ namespace Spaceinvder_Project
         readonly GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        private List<Component> _gameComponents;
+        private List<Component> GameComponents;
 
         Rectangle PlayerRect1 = new Rectangle(350, 650, 95, 100);
         Rectangle PlayerRect2 = new Rectangle(350, 650, 95, 100);
@@ -32,7 +32,7 @@ namespace Spaceinvder_Project
         Rectangle BackgroundMenuRect = new Rectangle(0, 0, 1366, 768);
         Rectangle CursorRect = new Rectangle(400, 215, 50, 50);
 
-        private Song ljud;
+        private Song LevanPolka;
 
         private Texture2D PlayerTexture1;
         private Texture2D PlayerTexture2;
@@ -42,7 +42,7 @@ namespace Spaceinvder_Project
         private Texture2D BacgroundMenuTexture;
         private Texture2D CursorTexture;
 
-        private SpriteFont font;
+        private SpriteFont Font;
 
 
 
@@ -52,6 +52,8 @@ namespace Spaceinvder_Project
         int menyTime = 0;
         int menyvalue = 0;
         int level = 1;
+        //int SpacebarToggle1 = 0;
+        //int SpacebarToggle2 = 0;
 
 
 
@@ -97,6 +99,8 @@ namespace Spaceinvder_Project
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            KeyboardState kstate = Keyboard.GetState();
+
             PlayerTexture1 = Content.Load<Texture2D>("Textures/player1");
             PlayerTexture2 = Content.Load<Texture2D>("Textures/player2");
             PlayerTexture3 = Content.Load<Texture2D>("Textures/player3");
@@ -104,28 +108,49 @@ namespace Spaceinvder_Project
             GameBackgroundTexture2 = Content.Load<Texture2D>("Backgrounds/Base background2");
             BacgroundMenuTexture = Content.Load<Texture2D>("Backgrounds/backgroundmenu");
             CursorTexture = Content.Load<Texture2D>("Textures/pek pil");
-            font = Content.Load<SpriteFont>("Font");
-            ljud = Content.Load<Song>("Sound/levan");
-            MediaPlayer.Play(ljud);
+            Font = Content.Load<SpriteFont>("Font");
+            LevanPolka = Content.Load<Song>("Sound/levan");
+            MediaPlayer.Play(LevanPolka);
             MediaPlayer.IsRepeating = true;
 
             Projectile ProjectileLeft = new Projectile(Content.Load<Texture2D>("Textures/projectile"))
             {
-                PPosition = new Vector2(350, 500),
+                Position = new Vector2(350, 500),
                 ProjectileColor = Color.White
+
             };
             Projectile ProjectileRight = new Projectile(Content.Load<Texture2D>("Textures/projectile"))
             {
-                PPosition = new Vector2(375, 500),
+                Position = new Vector2(375, 500),
                 ProjectileColor = Color.White
             };
-
-            _gameComponents = new List<Component>
+            Player Player1 = new Player(Content.Load<Texture2D>("Textures/player1"))
             {
+                Position = new Vector2(200, 200),
+            };
+            Player Player2 = new Player(Content.Load<Texture2D>("Textures/player2"))
+            {
+                Position = new Vector2(200, 300),
+            };
+            Player Player3 = new Player(Content.Load<Texture2D>("Textures/player3"))
+            {
+                Position = new Vector2(200, 400),
+            };
+
+            GameComponents = new List<Component>
+            {
+                Player1,
+                Player2,
+                Player3,
                 ProjectileLeft,
                 ProjectileRight
             };
 
+
+            /*if (BackgroundIndex == 1 && kstate.IsKeyUp(Keys.Space) && SpacebarToggle2 == 1)
+            {
+                ProjectileLeft.PPosition.Y += 3;
+            }*/
         }
 
         /// <summary>
@@ -144,8 +169,21 @@ namespace Spaceinvder_Project
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            foreach(var component in GameComponents.ToArray())
+            {
+                component.Update(gameTime, GameComponents);
+            }
 
 
+            for (int i = 0; i < Components.Count; i++)
+            {
+                if (GameComponents[i].IsRemoved)
+                {
+                    Components.RemoveAt(i);
+                    i--;
+                }
+            }
+            
             base.Update(gameTime);
 
             // TODO: Add your update logic here
@@ -280,9 +318,9 @@ namespace Spaceinvder_Project
                 //else if ((kstate.IsKeyDown(Keys.Enter) && menyvalue == 1)
 
 
-                spriteBatch.DrawString(font, "Start Game", new Vector2(500, 200), Color.White);
-                spriteBatch.DrawString(font, "Controls", new Vector2(540, 350), Color.White);
-                spriteBatch.DrawString(font, "Exit", new Vector2(600, 500), Color.White);
+                spriteBatch.DrawString(Font, "Start Game", new Vector2(500, 200), Color.White);
+                spriteBatch.DrawString(Font, "Controls", new Vector2(540, 350), Color.White);
+                spriteBatch.DrawString(Font, "Exit", new Vector2(600, 500), Color.White);
             }
             else if (kstate.IsKeyDown(Keys.Escape) && BackgroundIndex == 1)
             {
@@ -309,16 +347,12 @@ namespace Spaceinvder_Project
 
                 
 
-                spriteBatch.DrawString(font, "Continue Game", new Vector2(460, 200), Color.White);
-                spriteBatch.DrawString(font, "Controls", new Vector2(540, 350), Color.White);
-                spriteBatch.DrawString(font, "Exit to menu", new Vector2(490, 500), Color.White);
+                spriteBatch.DrawString(Font, "Continue Game", new Vector2(460, 200), Color.White);
+                spriteBatch.DrawString(Font, "Controls", new Vector2(540, 350), Color.White);
+                spriteBatch.DrawString(Font, "Exit to menu", new Vector2(490, 500), Color.White);
             }
             else if (BackgroundIndex == 1)
             {
-                foreach (var Component in _gameComponents)
-                {
-                    Component.Draw(gameTime, spriteBatch);
-                }
 
                 if (kstate.IsKeyDown(Keys.D))
                 {
@@ -358,11 +392,15 @@ namespace Spaceinvder_Project
                 {
                     spriteBatch.Draw(PlayerTexture3, PlayerRect3, Color.White);
                 }
-                else if (TextureChange < 80)
+                else if (TextureChange < 80)    
                 {
                     spriteBatch.Draw(PlayerTexture2, PlayerRect2, Color.White);
                 }
 
+                foreach (var component in GameComponents)
+                {
+                    component.Draw(gameTime, spriteBatch);
+                }
             }
             
 

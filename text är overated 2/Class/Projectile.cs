@@ -13,7 +13,8 @@ namespace text_är_overated_2.Class
     {
         private Texture2D ProjectileTexture;
 
-        public Vector2 PPosition { get; set; }
+        private float timer;
+
 
         public Color ProjectileColor { get; set; }
 
@@ -21,8 +22,7 @@ namespace text_är_overated_2.Class
         {
             get
             {
-                return new Rectangle((int)PPosition.X, (int)PPosition.Y, 30, 58);
-                //return new Rectangle((int)PPosition.X, (int)PPosition.Y, ProjectileTexture.Width, ProjectileTexture.Height);
+                return new Rectangle((int)Position.X, (int)Position.Y, 30, 58);
             }
         }
 
@@ -36,21 +36,16 @@ namespace text_är_overated_2.Class
             spriteBatch.Draw(ProjectileTexture, ProjectileRect, ProjectileColor);
         }
 
-        private KeyboardState kstate = Keyboard.GetState();
-        int SpacebarToggle1 = 0;
-        int SpacebarToggle2 = 0;
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, List<Component> components)
         {
-            if(kstate.IsKeyDown(Keys.Space) && SpacebarToggle1 == 0)
-            {
+            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                SpacebarToggle2 = 1;
-            }
-            else if (kstate.IsKeyUp(Keys.Space) && SpacebarToggle2 == 1)
+            if (timer > LifeSpan)
             {
-
-                SpacebarToggle1 = 1;
+                IsRemoved = true;
             }
+
+            Position += Direction * LinearVelocity;
         }
     }
 }
