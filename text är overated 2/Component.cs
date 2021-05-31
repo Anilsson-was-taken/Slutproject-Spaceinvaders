@@ -9,30 +9,44 @@ using Microsoft.Xna.Framework.Input;
 
 namespace text_är_overated_2
 {
-    public abstract class Component : ICloneable
+    public class Component : ICloneable
     {
-        public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
-
-        public abstract void Update(GameTime gameTime, List<Component> components);
-
-
         public float LifeSpan = 0f;
 
         public bool IsRemoved = false;
 
-        public float LinearVelocity = 4f;
+        protected KeyboardState Toggle1;
 
-        public KeyboardState Toggle1;
-
-        public KeyboardState Toggle2;
+        protected KeyboardState Toggle2;
 
         public Vector2 Position;
 
-        public Vector2 Direction;
+        public Vector2 Start;
 
-        public Component Parent;
+        public Vector2 LeftStart;
 
-        public float Rotation;
+        public Vector2 RightStart;
+
+        public int xOffset;
+
+        protected Texture2D BaseTexture;
+
+        public Component(Texture2D texture)
+        {
+            BaseTexture = texture;
+            Start = new Vector2(BaseTexture.Width / 2, BaseTexture.Height / 2);
+        }
+
+        public virtual void Update(GameTime gameTime, List<Component> GameComponents)
+        {
+
+        }
+
+
+        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(BaseTexture, Position, null, Color.White, 0, Start, 0.20f, SpriteEffects.None, 0);
+        }
 
         public object Clone()
         {
