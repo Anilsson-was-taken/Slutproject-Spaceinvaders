@@ -86,6 +86,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/laser beam.png
 
+#begin Textures/metorite.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/metorite.png
+
 #begin Textures/pek pil.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -98,7 +110,7 @@
 /processorParam:TextureFormat=Color
 /build:Textures/pek pil.png
 
-#begin Textures/player1.png
+#begin Textures/player1.1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -108,7 +120,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Textures/player1.png
+/build:Textures/player1.1.png
 
 #begin Textures/player2.png
 /importer:TextureImporter
