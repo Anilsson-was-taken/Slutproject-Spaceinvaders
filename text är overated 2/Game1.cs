@@ -146,7 +146,7 @@ namespace Spaceinvder_Project
 
             //backgroundindex är en int för vilken scen man är i. 0 = huvud meny 1 = spelet 2 = meny i spelet 3 = controls meny
             //när delay > 5 background index == 1 och spelet har startat skapas metoriterna
-            if (timer > 5 && BackgroundIndex == 1 && GameStarted == true)
+            if (timer > 3 && BackgroundIndex == 1 && GameStarted == true)
             {
                 timer = 0;
                 GameComponents.Add(new Enemy(Content.Load<Texture2D>("Textures/metorite")));
