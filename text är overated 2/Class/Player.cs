@@ -64,13 +64,13 @@ namespace text_är_overated_2
             }
 
             //så player inte kan åka ut ur banan
-            if (Position.X > 1366 - 60) 
+            if (Position.X > 1366 + 20) 
             {
-                Position.X = 1366 - 60;
+                Position.X = 1366 + 20;
             }
-            else if (Position.X < 0 + 60) 
+            else if (Position.X < 135) 
             {
-                Position.X = 0 + 60;
+                Position.X = 135;
             }
 
 

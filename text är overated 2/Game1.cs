@@ -88,7 +88,7 @@ namespace Spaceinvder_Project
         {
             //Reset metoden används både som start metod men också som metoden som resetar ifall man förlorar den går ut på att man skapar en lista ur klassen..
             //components och därefter medger positionen som är skärmen igenom 2 och att man skapar en ny projectile (skott) och indikerar texturn.
-            //Gamestarted är en bool som används för att få en paus imellan man dött eller när man precist börjat spelet
+            //Gamestarted är en bool som används för att få en paus imellan man dött eller när man precist börjat spelet.
             var playerTexture = Content.Load<Texture2D>("Textures/player1.1");
 
             GameComponents = new List<Component>()

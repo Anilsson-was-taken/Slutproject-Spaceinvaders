@@ -33,20 +33,7 @@ namespace text_är_overated_2.Class
             //hastigheten av skottet
             Position.Y -= 5;
 
-            //ungefär lika dan som i player. Ifall det är ett skott och det interactar (vilket den bara kan med enemy) så blir boolen isremoved = true..
-            //som leder till att skottet tars bort ur GameComponents i game1
-            foreach (var componet in GameComponents)
-            {
-                if (componet is Projectile)
-                {
-                    continue;
-                }
 
-                if (componet.Rectangle.Intersects(this.Rectangle) && !(componet is Player))
-                {
-                    IsRemoved = true;
-                }
-            }
         }
     }
 
