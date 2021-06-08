@@ -42,7 +42,7 @@ namespace text_är_overated_2.Class
                     continue;
                 }
 
-                if (componet.Rectangle.Intersects(this.Rectangle))
+                if (componet.Rectangle.Intersects(this.Rectangle) && !(componet is Player))
                 {
                     IsRemoved = true;
                 }

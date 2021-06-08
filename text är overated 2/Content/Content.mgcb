@@ -74,7 +74,7 @@
 /processorParam:Quality=Best
 /build:Sound/levan.mp3
 
-#begin Textures/laser beam.png
+#begin Textures/Metiorite2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -84,7 +84,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Textures/laser beam.png
+/build:Textures/Metiorite2.png
 
 #begin Textures/metorite.png
 /importer:TextureImporter
@@ -122,30 +122,6 @@
 /processorParam:TextureFormat=Color
 /build:Textures/player1.1.png
 
-#begin Textures/player2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/player2.png
-
-#begin Textures/player3.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/player3.png
-
 #begin Textures/projectile.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -157,4 +133,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/projectile.png
+
+#begin Textures/projectilee.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/projectilee.png
 

@@ -95,8 +95,8 @@ namespace Spaceinvder_Project
             {
                 new Player(playerTexture)
                 {
-                    Position = new Vector2(BufferWidth/2, 700),
-                    Projectile = new Projectile(Content.Load<Texture2D>("Textures/projectile")),
+                    Position = new Vector2(BufferWidth/2, 750),
+                    Projectile = new Projectile(Content.Load<Texture2D>("Textures/projectilee")),
                 },
             };
             GameStarted = false;
@@ -149,7 +149,7 @@ namespace Spaceinvder_Project
             if (timer > 3 && BackgroundIndex == 1 && GameStarted == true)
             {
                 timer = 0;
-                GameComponents.Add(new Enemy(Content.Load<Texture2D>("Textures/metorite")));
+                GameComponents.Add(new Enemy(Content.Load<Texture2D>("Textures/Metiorite2")));
             }
 
             //Detta är en for loop som tog ca 2 timmar. den går ut på att ta bort components ur min lista, components är både enemys och skott

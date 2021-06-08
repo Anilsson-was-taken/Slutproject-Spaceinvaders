@@ -25,7 +25,7 @@ namespace text_är_overated_2
         public Player(Texture2D texture)
             : base(texture) 
         {
-
+            Position.X = Position.X - 20;
         }
 
         public override void Update(GameTime gameTime, List<Component> GameComponents) 
@@ -73,6 +73,7 @@ namespace text_är_overated_2
                 Position.X = 0 + 60;
             }
 
+
             //ifall component är en spelare så fortsätter, ifall rectangle(spelar ingen roll vilken men pga att skeppets skott är så långt ut kan bara..
             //metioriterna(enemy) interacta med skeppet) så är är bool Dead = true.
             foreach (var componet in GameComponents) 
@@ -97,8 +98,8 @@ namespace text_är_overated_2
         {
             var projectile = Projectile.Clone() as Projectile;
             projectile.LifeSpan = 5f;
-            xOffset = 42;
-            LeftStart = new Vector2(xOffset, -70);
+            xOffset = 8;
+            LeftStart = new Vector2(xOffset, -30);
             projectile.Position = this.Position + LeftStart;
 
             GameComponents.Add(projectile);
@@ -108,8 +109,8 @@ namespace text_är_overated_2
         {
             var projectile = Projectile.Clone() as Projectile;
             projectile.LifeSpan = 5f;
-            xOffset = 45;
-            LeftStart = new Vector2(xOffset, 70);
+            xOffset = -98;
+            LeftStart = new Vector2(xOffset, 30);
             projectile.Position = this.Position - LeftStart;
 
             GameComponents.Add(projectile);
