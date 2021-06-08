@@ -18,7 +18,7 @@ namespace text_är_overated_2.Class
         {
             //sätter att y posionen alltid börjar på 0 och x är randm mellan skärmen (0-1366)
             Position = new Vector2(Game1.Random.Next(0, Game1.BufferWidth), -BaseTexture.Height);
-            //random speed mellan 7 och 15, 7 för att backgrunden går med speden 6 vilket för det fult ifall jag tar mindre än 7 och 15 för balanserng
+            //random speed mellan 7 och 15, 7 för att backgrunden går med speden 6 vilket för det fult ifall jag tar mindre än 7 och 15 för balanseringen
             Speed = Game1.Random.Next(7, 15);
         }
 
